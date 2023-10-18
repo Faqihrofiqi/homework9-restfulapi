@@ -1,0 +1,434 @@
+{
+  "definition": {
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Api Documentation ",
+      "version": "0.1.0",
+      "description": "Simple CRUD API application made with Express JS"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:3000/api/v1",
+        "description": "Development server"
+      }
+    ],
+    "tags": [
+      {
+        "name": "Main",
+        "description": "Signup and Login"
+      },
+      {
+        "name": "Movies",
+        "description": "Endpoint for Movies access"
+      },
+      {
+        "name": "Users",
+        "description": "Endpoint for Users access"
+      }
+    ],
+    "components": {
+      "securityScheme": {
+        "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+        }
+      }
+    },
+    "paths": {
+      "/signup": {
+        "post": {
+          "tags": ["Main"],
+          "summary": "Signup Users",
+          "consumes": "application/json",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "email": {
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "gender": {
+                      "type": "string"
+                    },
+                    "password": {
+                      "type": "string"
+                    },
+                    "role": {
+                      "type": "string"
+                    }
+                  },
+                  "description": "Schema for signup users"
+                }
+              }
+            },
+            "required": true
+          },
+          "description": "Signup to create a user account into database",
+          "responses": {
+            "200": {
+              "description": "Signed up Successfully"
+            }
+          }
+        }
+      },
+      "/login": {
+        "post": {
+          "tags": ["Main"],
+          "summary": "Login Users",
+          "consumes": "application/json",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "password": {
+                      "type": "string"
+                    }
+                  },
+                  "description": "Schema for login users"
+                }
+              }
+            },
+            "required": true
+          },
+          "description": "Login to user account from database",
+          "responses": {
+            "200": {
+              "description": "Logged in Successfully"
+            },
+            "422": {
+              "description": "Email and Password is not match"
+            }
+          }
+        }
+      },
+      "/users": {
+        "get": {
+          "tags": ["Users"],
+          "summary": "Get Users for Admin",
+          "security": {
+            "bearerAuth": []
+          },
+          "description": "Get all users from database",
+          "responses": {
+            "200": {
+              "description": "Get Users Successfully"
+            }
+          }
+        }
+      },
+      "/users/{id}": {
+        "get": {
+          "tags": ["Users"],
+          "summary": "Get User By Id for Admin",
+          "security": {
+            "bearerAuth": []
+          },
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "integer",
+              "format": "integer"
+            }
+          ],
+          "description": "Get user by id from database",
+          "responses": {
+            "200": {
+              "description": "Get User By Id Successfully"
+            },
+            "422": {
+              "description": "User not Found"
+            }
+          }
+        },
+        "put": {
+          "tags": ["Users"],
+          "summary": "Update User for Admin",
+          "security": {
+            "bearerAuth": []
+          },
+          "consumes": "application/json",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "email"
+                    },
+                    "gender": {
+                      "type": "string"
+                    },
+                    "password": {
+                      "type": "string"
+                    },
+                    "role": {
+                      "type": "string"
+                    }
+                  },
+                  "description": "Schema for update users"
+                }
+              }
+            },
+            "required": true
+          },
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "integer",
+              "format": "integer"
+            }
+          ],
+          "description": "Update user from database",
+          "responses": {
+            "200": {
+              "description": "Updated Successfully"
+            },
+            "422": {
+              "description": "User not Found"
+            }
+          }
+        },
+        "delete": {
+          "tags": ["Users"],
+          "summary": "Delete User for Admin",
+          "security": {
+            "bearerAuth": []
+          },
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "integer",
+              "format": "integer"
+            }
+          ],
+          "description": "Delete user from database",
+          "responses": {
+            "200": {
+              "description": "Deleted Successfully"
+            },
+            "422": {
+              "description": "User not Found"
+            }
+          }
+        }
+      },
+      "/movies": {
+        "get": {
+          "tags": ["Movies"],
+          "summary": "Get Movies for Member",
+          "security": {
+            "bearerAuth": []
+          },
+          "description": "Get all Movies from database",
+          "responses": {
+            "200": {
+              "description": "Get Movies Successfully"
+            }
+          }
+        }
+      },
+      "/movies/{id}": {
+        "get": {
+          "tags": ["Movies"],
+          "summary": "Get Movie By Id for Member",
+          "security": {
+            "bearerAuth": []
+          },
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "integer",
+              "format": "integer"
+            }
+          ],
+          "description": "Get Movie by id from database",
+          "responses": {
+            "200": {
+              "description": "Get Movie By Id Successfully"
+            },
+            "422": {
+              "description": "Movie not Found"
+            }
+          }
+        }
+      },
+      "/movies/admin": {
+        "get": {
+          "tags": ["Movies"],
+          "summary": "Get Movies for Admin",
+          "security": {
+            "bearerAuth": []
+          },
+          "description": "Get all Movies from database",
+          "responses": {
+            "200": {
+              "description": "Get Movies Successfully"
+            }
+          }
+        }
+      },
+      "/movies/admin/{id}": {
+        "get": {
+          "tags": ["Movies"],
+          "summary": "Get Movie By Id for Admin",
+          "security": {
+            "bearerAuth": []
+          },
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "integer",
+              "format": "integer"
+            }
+          ],
+          "description": "Get Movie by id from database",
+          "responses": {
+            "200": {
+              "description": "Get Movie By Id Successfully"
+            },
+            "422": {
+              "description": "Movie not Found"
+            }
+          }
+        },
+        "post": {
+          "tags": ["Movies"],
+          "summary": "Create Movies for Admin",
+          "security": {
+            "bearerAuth": []
+          },
+          "consumes": "application/json",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "genres": {
+                      "type": "string"
+                    },
+                    "year": {
+                      "type": "string"
+                    }
+                  },
+                  "description": "Schema for create movies"
+                }
+              }
+            },
+            "required": true
+          },
+          "description": "Create movies into database",
+          "responses": {
+            "200": {
+              "description": "Created Successfully"
+            }
+          }
+        },
+        "put": {
+          "tags": ["Movies"],
+          "summary": "Update Movie for Admin",
+          "security": {
+            "bearerAuth": []
+          },
+          "consumes": "application/json",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "title": {
+                      "type": "string"
+                    },
+                    "genres": {
+                      "type": "string"
+                    },
+                    "years": {
+                      "type": "string"
+                    }
+                  },
+                  "description": "Schema for update movie"
+                }
+              }
+            },
+            "required": true
+          },
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "integer",
+              "format": "integer"
+            }
+          ],
+          "description": "Update movie from database",
+          "responses": {
+            "200": {
+              "description": "Updated Successfully"
+            },
+            "422": {
+              "description": "Movie not Found"
+            }
+          }
+        },
+        "delete": {
+          "tags": ["Movies"],
+          "summary": "Delete Movie for Admin",
+          "security": {
+            "bearerAuth": []
+          },
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "integer",
+              "format": "integer"
+            }
+          ],
+          "description": "Delete movie from database",
+          "responses": {
+            "200": {
+              "description": "Deleted Successfully"
+            },
+            "422": {
+              "description": "Movie not Found"
+            }
+          }
+        }
+      }
+    }
+  },
+  "apis": ["./routes/*.js"]
+}
